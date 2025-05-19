@@ -1,2 +1,2 @@
 # ostaGIS
-Collection OSINT for threat analysis using GIS.
+Collecting OSINT for threat analysis using GIS.
