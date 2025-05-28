@@ -10,10 +10,10 @@
 \
 **See [HOW_TO_SCRAPE_LINKS.md](HOW_TO_SCRAPE_LINKS.md) for the best way to prepare for sraping.**
 ### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
-[CIA_wfb.html](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/CIA_wfb.html)
+[CIA_wfb.html](CIA_wfb.html)
 ### This notebook contains the code used to scrape and geolocate the data
-[wfb_scrape.ipynb](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/wfb_scrape.ipynb)
+[wfb_scrape.ipynb](wfb_scrape.ipynb)
 ### Resulting Datasets
-[wfb_countries_coded.csv](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/wfb_countries_coded.csv)
+[wfb_countries_coded.csv](wfb_countries_coded.csv)
 <br>
-[wfb_countries_no_code.csv](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/wfb_countries_no_code.csv)
+[wfb_countries_no_code.csv](wfb_countries_no_code.csv)
