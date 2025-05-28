@@ -5,6 +5,7 @@
 - Beautiful Soup
 - Pandas
 - Country Converter (coco)
+- ArcPy
 
 \
 **See [HOW_TO_SCRAPE_LINKS.md](HOW_TO_SCRAPE_LINKS.md) for the best way to prepare for sraping.**
