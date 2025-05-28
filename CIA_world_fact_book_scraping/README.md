@@ -8,7 +8,7 @@
 - Country Converter (coco)
 
 \
-**See [HOW_TO_SCRAPE_LINKS.md](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/HOW_TO_SCRAPE_LINKS.md) for the best way to prepare for sraping.**
+**See [HOW_TO_SCRAPE_LINKS.md](HOW_TO_SCRAPE_LINKS.md) for the best way to prepare for sraping.**
 ### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
 [CIA_wfb.html](https://github.com/samcor33/ostaGIS/main/CIA_world_fact_book_scraping/CIA_wfb.html)
 ### This notebook contains the code used to scrape and geolocate the data
