@@ -14,5 +14,5 @@
 [geolocate_t_orgs.ipynb](geolocate_t_orgs.ipynb)
 ### Resulting Dataset
 [wfb_t_orgs_geolocated.csv](wfb_t_orgs_geolocated.csv)
-### This notebook contains the arcpy code required to convert the *wfb_t_orgs_geolocated.csv* dataset into a combined feature class and if needed, feature classes containing the area(s) of operation for each t_org individually.
+#### This notebook contains the arcpy code required to convert the *wfb_t_orgs_geolocated.csv* dataset into a combined feature class and if needed, feature classes containing the area(s) of operation for each t_org individually.
 [arcgis_map_t_org_aors.ipynb](ArcGIS_mapping_t_orgs/arcgis_map_t_org_aors.ipynb)
