@@ -6,4 +6,6 @@
 <br>Country Converter (coco)
 <br>
 #### This code and resulting dataset is desinged for use with ArcGIS Pro to map the CIA World Factbook entry (link) with the matching country using the ISO3 code.
-The dataset can be used independently for other mapping purposes,
+The dataset can be used independently for other mapping purposes.
+<br>
+See the [a link](https://github.com/samcor33/ostaGIS/edit/main/CIA_world_fact_book_scraping/HOW_TO_SCRAPE _LINKS.md)
