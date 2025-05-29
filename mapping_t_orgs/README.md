@@ -1,6 +1,6 @@
 ## Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) to geolocate referenced "Areas of Operation" in ISO3 format
 ### PURPOSE: This code and resulting dataset is desinged for use with ArcGIS Pro to map each CIA World Factbook Terrorist Organizaion's *Area(s) of Operation* with the matching country using the ISO3 code.
->*The dataset can be used independently for other mapping purposes.*
+*The dataset can be used independently for other mapping purposes.*
    
 ### Python libraries used:
 - Beautiful Soup
