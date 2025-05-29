@@ -7,6 +7,6 @@
 - Country Converter (coco)
 
 ### Code used to parse and geolocate the data. _(notes within code)_
-[RSS_scraper_for_state_dept_travel_advisories](RSS_scraper_for_state_dept_travel_advisories)
+[RSS_scraper_for_state_dept_travel_advisories.py](RSS_scraper_for_state_dept_travel_advisories.py)
 ### Resulting Dataset - Must be saved in Excel format due to cells containing large HTML values
 [travel_advisories.xlsx](travel_advisories.xlsx)
