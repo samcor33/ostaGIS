@@ -1,18 +1,18 @@
-## Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) to geolocate referenced "Areas of Operation" in ISO3 format
+# Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) to geolocate referenced "Areas of Operation" in ISO3 format
 ### PURPOSE: This code and resulting dataset is desinged for use with ArcGIS Pro to map each CIA World Factbook Terrorist Organizaion's *Area(s) of Operation* with the matching country using the ISO3 code.
-*The dataset can be used independently for other mapping purposes.*
-   
+\**The dataset can be used independently for other mapping purposes.*
+
 ### Python libraries used:
 - Beautiful Soup
 - Pandas
 - Country Converter (coco)
 - ArcPy
 
-### Example of HTML file used
->NOTE: to run the code as designed, the HTML should be saved as stated **[here](HOW_TO_SCRAPE_LINKS.md)**.
+## Example of HTML file used
+NOTE: to run the code as designed, the HTML should be saved as stated **[here](HOW_TO_SCRAPE_LINKS.md)**.
 
 [CIA_t_o.html](CIA_t_o.html)
-### Scrape and geolocate the data.
+## Scrape and geolocate the data.
 #### Parse and build dataframe
 ~~~
 from bs4 import BeautifulSoup, NavigableString
@@ -125,13 +125,15 @@ tos_df.explode('country_aor').to_csv("C:\\Users\\samco\\OneDrive\\Desktop\\OSINT
 ~~~
 ### Resulting Dataset
 [wfb_t_orgs_geolocated.csv](wfb_t_orgs_geolocated.csv)
+<br>
+<br>
 
 ---
 
-## How to use arcpy in ArcGIS Pro to convert the *wfb_t_orgs_geolocated.csv* dataset into a combined feature class and if needed, feature classes containing the area(s) of operation for each t_org individually.
+# Use arcpy in ArcGIS Pro to convert *wfb_t_orgs_geolocated.csv* into feature classes containing the area(s) of operation for each t_org individually.
 
-### 1) Use a feature class containing all the countries with thier ISO3 code. Then use _wfb_t_orgs_geolocated.csv_ to create a resulting dataset that contains only the countirees in which the t_orgs reside.
->_This Feature Class can be used for further proccessing in the steps below, or it can act as a standalon feature layer for analysis._
+## 1) Use _wfb_t_orgs_geolocated.csv_ to match with a country on the ISO3 code to create a feature class containing only the countries in which the t_orgs reside.
+_This Feature Class can be used for further proccessing in the steps below, or it can act as a standalon feature layer for analysis._
 ~~~
 # All credit for this code goes to ChatGPT
 
@@ -196,10 +198,10 @@ with arcpy.da.SearchCursor(countries_fc, countries_fields + ['SHAPE@']) as count
 
 print("Many-to-many replication completed!")
 ~~~
->Resulting feature class.
->![image](https://github.com/user-attachments/assets/130ac670-8406-4ac9-abdb-1e29ff92b769)
+Resulting feature class.
+![image](https://github.com/user-attachments/assets/130ac670-8406-4ac9-abdb-1e29ff92b769)
 
-### 2) Create a feature class for each t_org contained in the resulting feature class in the step above.
+## 2) Create a feature class for each t_org contained in the resulting feature class in the step above.
 ~~~
 # Get table with t_orgs and ISO3 codes
 iso_table = r"C:\GIS\ArcGIS\Projects\Worlwide_Threat_Analysis\Worlwide_Threat_Analysis.gdb\wfb_t_orgs_geolocated"
@@ -248,10 +250,10 @@ while i < len(t_os_names_arr) - 1:
 print('Mapping Complete')
 ~~~
 
->Resulting feature classes.
->![image](https://github.com/user-attachments/assets/ceb52d63-53da-4461-95d3-f468f7af32e8)
+Resulting feature classes.
+![image](https://github.com/user-attachments/assets/ceb52d63-53da-4461-95d3-f468f7af32e8)
 
-### 3) Assign specific symbology if all individual t_orgs are wihtin a group layer to show hot spots within overlapping countries.
+## 3) Assign specific symbology to all individual t_orgs within a group layer to show hot spots of overlapping countries.
 ~~~
 aprx = arcpy.mp.ArcGISProject("CURRENT")
 
@@ -281,5 +283,5 @@ for gp_lyr in lyrs:
                 symbology.renderer.symbol.applySymbolFromGallery("t_org_aor")
                 gpd_lyrs[i].symbology = symbology  # Apply changes
 ~~~
->Resulting Map with overlapping layers using transparency to identify country hotspots.
->![image](https://github.com/user-attachments/assets/0483f860-62a4-46a3-a322-bf236fbf76dd)
+Resulting Map with overlapping layers using transparency to identify country hotspots.
+![image](https://github.com/user-attachments/assets/0483f860-62a4-46a3-a322-bf236fbf76dd)
