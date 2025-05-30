@@ -9,7 +9,7 @@
 - ArcPy
 
 ## Example of HTML file used
-NOTE: to run the code as designed, the HTML should be saved as stated **[here](HOW_TO_SCRAPE_LINKS.md)**.
+NOTE: to run the code as designed, the HTML should be saved as stated **[here](HOW_TO_SCRAPE_T_ORGS.md)**.
 
 [CIA_t_o.html](CIA_t_o.html)
 ## Scrape and geolocate the data.
