@@ -48,6 +48,20 @@ else:
 
 twa_df = pd.DataFrame(country_threat_info).transpose().reset_index().rename(columns={"index": "DoS_gen2alpha"})
 
+# ****************** PARSE OUT SECURITY REPORT *************************************************
+sec_reports = []
+for s in twa_df['summary']:
+    sec_rep = "https://www.osac.gov/"
+    if sec_rep in s:
+        tail_url = s.split(sec_rep, 1)[1].split(">", 1)
+        full_sec_rep_url = sec_rep + tail_url[0]
+        sec_reports.append(full_sec_rep_url.replace('"', ""))
+    else:
+        sec_reports.append("https://www.osac.gov/Content/Browse/Report?subContentTypes=Country%20Security%20Report")
+
+twa_df["security_report"] = pd.Series(sec_reports)
+# ****************** PARSE OUT SECURITY REPORT *************************************************
+
 #Check if any Summary text is over the 32000 limit for exporting to csv
 for s in twa_df['summary']:
     
@@ -102,5 +116,5 @@ twa_df = twa_df.reset_index().drop(columns='index')
 
 #rearrange columns for finished dataset
 twa_df_final = twa_df
-twa_df_final = twa_df_final[['country', 'threat_level', 'published', 'ISO3_CODE', 'link', 'summary', 'summary_cont', 'label', 'DoS_country_name', 'DoS_gen2alpha']]
-twa_df_final.to_excel(f'travel_advisories.xlsx', sheet_name='travel_advisories')
+twa_df_final = twa_df_final[['country', 'threat_level', 'published', 'security_report', 'link', 'summary', 'summary_cont', 'ISO3_CODE', 'label', 'DoS_country_name', 'DoS_gen2alpha']]
+twa_df_final.to_excel(f'C:\\Users\\samco\\OneDrive\\Desktop\\OSINT\\travel_advisories.xlsx', sheet_name='travel_advisories')
