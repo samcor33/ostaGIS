@@ -82,9 +82,11 @@ replacements = str.maketrans({
 })
 
 tos_df['area of operation'] = tos_df['area of operation'].str.translate(replacements)
-# Add "aor" to start of text as identifier and first word to not match the coco regex for sorting purposes
-tos_df['area of operation'] = 'aor ' + tos_df['area of operation'] 
+# Add "AOR" to start of text as identifier and first word to not match the coco regex for sorting purposes
+tos_df['area of operation'] = 'AOR ' + tos_df['area of operation'] 
 tos_df['country_aor'] = None
+# Add column for link to CIA WFB t_org page
+tos_df['wfb_t_org_link'] = "https://www.cia.gov/the-world-factbook/references/terrorist-organizations/"
 
 aor_full = tos_df['area of operation'].fillna("N/A")
 
