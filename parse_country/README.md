@@ -1,4 +1,4 @@
-# [parse_country.py](parse_country.py)
+# [ostaGIS.py - > parse_country](ostaGIS.py)
 
 #### PURPOSE: Parse and geocode countries mentioned within a text to then geolocate that text using GIS software.
 
@@ -37,8 +37,8 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
             True - will create a new row for each country within the list. 
             False - will keep all orginal rows; the matched countries will reman in list form within each cell.
         log: "CRITICAL" or "INFO" will denote whether the 'not found' regexes are displayed as an error.
-            CRITICAL - 'not found' regexes will not be displayed.
-            INFO - 'not found' regexes will be displayed.
+              CRITICAL - 'not found' regexes will not be displayed.
+              INFO - 'not found' regexes will be displayed.
     """
     import pandas as pd
     import country_converter as coco
@@ -120,7 +120,7 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
         return df.drop(columns='col_with_id')
 ```
 
-## [vals_to_df.py](vals_to_df.py)
+# [ostaGIS.py - > vals_to_df](ostaGIS.py)
 
 #### PURPOSE: Convert *list* to pandas DataFrame
 
