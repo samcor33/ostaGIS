@@ -1,4 +1,4 @@
-# [ostaGIS.py - > parse_country](ostaGIS.py)
+# [ostaGIS.py - > parse_country]((https://github.com/samcor33/ostaGIS/blob/patch-2/ostaGIS.py)
 
 #### PURPOSE: Parse and geocode countries mentioned within a text to then geolocate that text using GIS software.
 
