@@ -1,5 +1,7 @@
-# Parse the [State Department travel advisory XML feed](https://travel.state.gov/_res/rss/TAsTWs.xml/) to geolocate countries into ISO3 format
-### PURPOSE: This code and resulting dataset is desinged for use with ArcGIS Pro to map each Travel Advisory/Warning with the matching country using the ISO3 code.
+# [ostaGIS.py - > state_dept_twas](ostaGIS.py)
+### PURPOSE: Parse the [State Department travel advisory XML feed](https://travel.state.gov/_res/rss/TAsTWs.xml/) to geolocate countries into ISO3 format.
+NOTE: This code and resulting dataset is designed for use with ArcGIS Pro to map each country's Travel Warning/Advisory using the ISO3 code.
+
 *The dataset can be used independently for other mapping purposes.*
 ### Python libraries used:
 - Feedparser
@@ -167,12 +169,12 @@ ___
 ### Join _travel_advisories.xlsx_ with a feature layer representing countries with an ISO3 code.
 <br>
 
-A specific style within the ArcGIS Project is used to identify the Travel Advisory/Warning based on color.
+A specific style within the ArcGIS Project is used to identify the Travel Warning/Advisory based on color.
 <br>
 <br>
 ![image](https://github.com/user-attachments/assets/1af846e4-bb66-4d10-a8bf-505c7c423dd5)
 
-By clicking on the intended country, you can get all the relevant State Department advisory information including the threat level, date published, link to the specific advisory through the department and an HTML print out of the advisory in the summary block.
+By clicking on the intended country, you can get all the relevant State Department advisory information including the threat level, date published, OSAC Security report (if avaiable), link to the specific advisory through the department and an HTML print out of the advisory in the summary block.
 <br>
 <br>
 ![image](https://github.com/user-attachments/assets/25d637d1-52da-4274-bb85-2e9355a6457b)
