@@ -197,7 +197,7 @@ An exploded or unexploded DataFrame with the text and corrosponding ISO3 country
 
 ##### NOTE: This function may not catch all countries within a text.
 
-#### See [notebook](parse_country_examples.ipynb) for examples
+#### See [notebook](help/parse_country_examples.ipynb) for examples
 
 ```
 def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRITICAL"):
