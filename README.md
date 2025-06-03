@@ -5,7 +5,7 @@
 ##### [Mapping CIA World Factbook Terrorist Organizations](mapping_t_orgs/README.md)
 > ##### [parse_country.py](parse_country/README.md)
 
-##### [Parsing State Dept Travel Advisory XML Feed](# ostaGIS.py - > state_dept_twas)
+##### [Parsing State Dept Travel Advisory XML Feed]()
 
 ___
 # ostaGIS.py - > state_dept_twas
