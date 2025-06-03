@@ -5,10 +5,10 @@
 ##### [Mapping CIA World Factbook Terrorist Organizations](mapping_t_orgs/README.md)
 > ##### [parse_country.py](parse_country/README.md)
 
-##### [Parsing State Dept Travel Advisory XML Feed](# [ostaGIS.py - > state_dept_twas]())
+##### [Parsing State Dept Travel Advisory XML Feed](# ostaGIS.py - > state_dept_twas)
 
 ___
-# [ostaGIS.py - > state_dept_twas]()
+# ostaGIS.py - > state_dept_twas
 #### PURPOSE: Parse the [State Department travel advisory XML feed](https://travel.state.gov/_res/rss/TAsTWs.xml/) to geolocate countries into ISO3 format.
 ###### NOTE: This code and resulting dataset is designed for use with ArcGIS Pro to map each country's Travel Warning/Advisory using the ISO3 code.
 
