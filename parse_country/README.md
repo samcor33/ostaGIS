@@ -128,7 +128,6 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
 def vals_to_df(entries):
     """
     Description:
-        df_name: name for new DataFrame
         entries: list of text to be in each row of the DataFrame
     """  
     if isinstance(entries, list):
