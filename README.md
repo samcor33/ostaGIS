@@ -413,3 +413,90 @@ def wfb_country_scrape(saved_html, output_folder, log="CRITICAL"):
 [wfb_countries_coded.csv](wfb_countries_coded.csv)
 <br>
 [wfb_countries_no_code.csv](wfb_countries_no_code.csv)
+___
+# [ostaGIS.py - > wfb_country_scraper](ostaGIS.py)
+
+#### PURPOSE: Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) from a saved .html for known area(s) of operation (AORs); resulting in a Pandas Dataframe.
+###### NOTE: use with the `parse_country` function to geolocate the AORs.
+#### Python libraries used:
+- BeautifulSoup
+- Pandas
+- Country Converter (coco)
+
+\
+**See [HOW_TO_SCRAPE_T_ORGS.md](link) for the best way to prepare for sraping.**
+##### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
+[CIA_t_o.html](links)
+```
+def wfb_tos_geoscraper(saved_html):
+    """
+    saved_html: path to the saved CIA wfb html file -- see documentation 'https://github.com/samcor33/ostaGIS/'
+    
+    Description: scrape CIA desingated bad actors for known area(s) of operation (AORs)
+    Result: a Pandas Dataframe to be used for further processing
+    ___________________________________
+    |    index    | area of operation |
+    |---------------------------------|
+    | torg (name) |  AOR description  |
+    
+    Designed for: use with the `parse_country` function to geolocate the AORs
+    """
+    from bs4 import BeautifulSoup, NavigableString
+    import pandas as pd
+    import country_converter as coco
+    
+    wfb_tos = {}
+    
+    # Open the HTML file
+    with open(saved_html, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+    
+    # Parse the HTML content
+    soup = BeautifulSoup(html_content, 'html.parser')
+    
+    # Find div elements labeled "pb30" which hold the information for each t_org
+    sections = soup.find_all('div', attrs={"class":"pb30"})
+    
+    # Extract information (example: all paragraph tags)
+    for s in sections:    
+        titles = s.find_all("h2") # Title(name) of t_org
+        paragraphs = s.find_all('p') # p elements with t_org information
+    
+        # Get each h2 element
+        for title in titles:
+    
+            # Get information in each p element
+            for p in paragraphs:        
+                
+                # Find elements that contain "areas of operation" and split to extract the text to "wfb_tos" dict
+                if 'areas of operation' in p.text:
+                    cat_l = "area of operation"
+                    cat_t = p.text.split('areas of operation – ')[1]
+                
+                    if title.text not in wfb_tos:
+                        wfb_tos[title.text] = {}
+                    wfb_tos[title.text][cat_l] = cat_t
+                    break
+    
+                # Find elements that contain "area(s) of operation" and split to extract the text to "wfb_tos" dict
+                # This is due to variation in labeling from the CIA website
+                if 'area(s) of operation' in p.text:
+                    cat_l = "area of operation"
+                    cat_t = p.text.split('area(s) of operation – ')[1]
+                
+                    if title.text not in wfb_tos:
+                        wfb_tos[title.text] = {}
+                    wfb_tos[title.text][cat_l] = cat_t
+                    break
+    
+    # Put "wfb_tos" into pandas dataframe
+    return pd.DataFrame(wfb_tos).T.reset_index()
+```
+**Example when used in conjuction with `parse_country`:**
+```
+ostaGIS.parse_country(
+    df=wfb_tos_geoscraper(saved_html = r"C:/Users/me/my_project/CIA_t_o.html"), 
+    col_to_be_parsed="area of operation", 
+    new_match_column="country_aor"
+).to_csv("C:/Users/me/my_project/datasets/wfb_t_orgs_geolocated.csv")
+```
