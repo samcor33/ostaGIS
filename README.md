@@ -297,7 +297,7 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
     else:
         return df.drop(columns='col_with_id')
 ```
-
+___
 # [ostaGIS.py - > vals_to_df](ostaGIS.py)
 
 #### PURPOSE: Convert *list* to pandas DataFrame
@@ -318,3 +318,98 @@ def vals_to_df(entries):
     df = pd.DataFrame(df)
     return df
 ```
+___
+# [ostaGIS.py - > wfb_country_scraper](ostaGIS.py)
+
+#### PURPOSE: This code is desinged to scrape each CIA World Factbook entry (link) with the matching country using the ISO3 code; this results in coded and non-coded datasets.
+*The datasets can be used independently for other mapping purposes.*
+#### Python libraries used:
+- BeautifulSoup
+- Pandas
+- Country Converter (coco)
+- Logging
+
+\
+**See [HOW_TO_SCRAPE_LINKS.md](link) for the best way to prepare for sraping.**
+##### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
+[CIA_wfb.html](CIA_wfb.html)
+```
+def wfb_country_scrape(saved_html, output_folder, log="CRITICAL"):
+    """
+    Description:
+        Extract links for each country from the CIA World Factbook.
+    Params:
+        saved_html: path to the saved CIA wfb html file -- see documentation 'https://github.com/samcor33/ostaGIS/'
+        output_folder: path to folder for resulting datasets
+            Example - 'C:\\Users\\me\\project_folder\\saved_datasets'
+        log: 'CRITICAL' or 'INFO' will denote whether the 'not found' regexes are displayed as an error
+              CRITICAL - 'not found' regexes will not be displayed
+              INFO - 'not found' regexes will be displayed
+    """
+    from bs4 import BeautifulSoup, NavigableString
+    import pandas as pd
+    import country_converter as coco
+    import logging
+    
+    # Check that the 'log' param is 'CRITICAL' or 'INFO'
+    if log == "CRITICAL":
+        coco_logger = coco.logging.getLogger()
+        coco_logger.setLevel(logging.CRITICAL)
+    elif log == "INFO":
+        coco_logger = coco.logging.getLogger()
+        coco_logger.setLevel(logging.INFO)
+    else:
+        raise Exception(f"log param cannot equal '{log}'...log must equal 'CRITICAL' or 'INFO'")
+    
+    wfb_country_links = [] # Stores each link
+    
+    # Open the HTML file
+    with open(saved_html, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+    
+    # Parse the HTML content
+    soup = BeautifulSoup(html_content, 'html.parser')
+    
+    # Find div elements labeled "pb30" which hold the information for each t_org
+    sections = soup.find_all("a", attrs={"href": any})
+    
+    for a in sections:
+        # Replace "file:///C:/" with the CIA url to make the "href" url valid an clickable
+        wfb_country_links.append("https://www.cia.gov" + a.get("href"))
+    
+    #Create DataFrame using pandas
+    wfb_df = pd.DataFrame(wfb_country_links)
+
+    #Split link into new df
+    wfb_df_coded = wfb_df[0].str.split("/", expand=True)
+    #Get country name from split link
+    wfb_df_country = wfb_df_coded[5]
+
+    cc = coco.CountryConverter()
+    #Compare country with coco and create column with matched country
+    country_names = cc.pandas_convert(wfb_df_country, to='short_name')
+    wfb_df_coded['country'] = country_names
+    
+    #Get ISO3 Code with coco based off of the matched country
+    iso3_codes = cc.pandas_convert(wfb_df_coded['country'], to='ISO3')
+    wfb_df_coded['ISO3_CODE'] = iso3_codes
+    
+    #Merge split link data with original link df...then drop & rename columns
+    wfb_coded = wfb_df.merge(wfb_df_coded, left_index=True, right_index=True).drop(columns=["0_y",	1,	2,	3,	4, 6]).rename(columns={"0_x": "wfb_country_link", 5: "wfb_country_name"})
+    
+    #Create two separate dfs...one without coded links and one with the coded links
+    wfb_code_not_found = wfb_coded[wfb_coded['country'] == "not found"].drop_duplicates().reset_index().drop(columns="index")
+    wfb_coded = wfb_coded[wfb_coded['country'] != "not found"].drop_duplicates().reset_index().drop(columns="index")
+    
+    # Dataset of locations not found thru coco...(i.e., place.drop_duplicates()s, not official countries)
+    wfb_code_not_found.to_csv(output_folder + "\\wfb_countries_not_coded.csv")
+    
+    # Dataset of goelocated World Fact Book links
+    wfb_coded.to_csv(output_folder + "\\wfb_countries_coded.csv")
+
+    return(print(f"finished...see {output_folder}"))
+```
+### Resulting Datasets
+[wfb_countries_coded.csv](wfb_countries_coded.csv)
+<br>
+[wfb_countries_no_code.csv](wfb_countries_no_code.csv)
