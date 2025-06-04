@@ -332,7 +332,7 @@ ___
 \
 **See [HOW_TO_SCRAPE_LINKS.md](link) for the best way to prepare for sraping.**
 ##### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
-[CIA_wfb.html](CIA_wfb.html)
+[CIA_wfb.html](links)
 ```
 def wfb_country_scrape(saved_html, output_folder, log="CRITICAL"):
     """
