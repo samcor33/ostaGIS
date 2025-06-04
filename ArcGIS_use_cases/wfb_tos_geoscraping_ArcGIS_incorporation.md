@@ -1,80 +1,12 @@
-# Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) to geolocate referenced "Areas of Operation" in ISO3 format
-#### PURPOSE: This code and resulting dataset is desinged for use with ArcGIS Pro to map each CIA World Factbook Terrorist Organizaion's *Area(s) of Operation* with the matching country using the ISO3 code.
-\**The dataset can be used independently for other mapping purposes.*
-
-#### Python libraries used:
-- Beautiful Soup
-- Pandas
-- Country Converter (coco)
-- ArcPy
-
-## Example of HTML file used
-NOTE: to run the code as designed, the HTML should be saved as stated **[here](HOW_TO_SCRAPE_T_ORGS.md)**.
-
-[CIA_t_o.html](CIA_t_o.html)
-## Scrape and geolocate the data.
-#### Parse and build dataframe
-~~~
-from bs4 import BeautifulSoup, NavigableString
-import pandas as pd
-import country_converter as coco
-
-# Must save the html as a file
-saved_html = r"C:/Users/samco/OneDrive/Desktop/OSINT/saved_web_pages/CIA_t_o.html"
-wfb_tos = {}
-
-# Open the HTML file
-with open(saved_html, 'r', encoding='utf-8') as file:
-    html_content = file.read()
-
-# Parse the HTML content
-soup = BeautifulSoup(html_content, 'html.parser')
-
-# Find div elements labeled "pb30" which hold the information for each t_org
-sections = soup.find_all('div', attrs={"class":"pb30"})
-
-# Extract information (example: all paragraph tags)
-for s in sections:    
-    titles = s.find_all("h2") # Title(name) of t_org
-    paragraphs = s.find_all('p') # p elements with t_org information
-
-    # Get each h2 element
-    for title in titles:
-
-        # Get information in each p element
-        for p in paragraphs:        
-            
-            # Find elements that contain "areas of operation" and split to extract the text to "wfb_tos" dict
-            if 'areas of operation' in p.text:
-                cat_l = "area of operation"
-                cat_t = p.text.split('areas of operation – ')[1]
-            
-                if title.text not in wfb_tos:
-                    wfb_tos[title.text] = {}
-                wfb_tos[title.text][cat_l] = cat_t
-                break
-
-            # Find elements that contain "area(s) of operation" and split to extract the text to "wfb_tos" dict
-            # This is due to variation in labeling from the CIA website
-            if 'area(s) of operation' in p.text:
-                cat_l = "area of operation"
-                cat_t = p.text.split('area(s) of operation – ')[1]
-            
-                if title.text not in wfb_tos:
-                    wfb_tos[title.text] = {}
-                wfb_tos[title.text][cat_l] = cat_t
-                break
-
-# Put "wfb_tos" into pandas dataframe
-tos_df = pd.DataFrame(wfb_tos).T.reset_index()
-~~~
-#### Clean and geolocate using [parse_country](https://github.com/samcor33/ostaGIS/edit/main/parse_country/parse_country.py)...then export
-~~~
-from parse_country import parse_country
-
-ex_tos_df = parse_country(tos_df, "area of operation", "country_aor")
-ex_tos_df.to_csv("C:\\Users\\samco\\OneDrive\\Desktop\\OSINT\\Complete_datasets\\wfb_t_orgs_geolocated.csv")
-~~~
+# Map CIA designated bad actors using ArcGIS Pro
+#### Scrape and geolocate the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) using `wfb_tos_geoscraper` and `parse_country` as seen below.
+```
+ostaGIS.parse_country(
+    df=wfb_tos_geoscraper(saved_html = r"C:/Users/me/my_project/CIA_t_o.html"), 
+    col_to_be_parsed="area of operation", 
+    new_match_column="country_aor"
+).to_csv("C:/Users/me/my_project/datasets/wfb_t_orgs_geolocated.csv")
+```
 ### Resulting Dataset
 [wfb_t_orgs_geolocated.csv](wfb_t_orgs_geolocated.csv)
 <br>
@@ -82,7 +14,7 @@ ex_tos_df.to_csv("C:\\Users\\samco\\OneDrive\\Desktop\\OSINT\\Complete_datasets\
 
 ---
 
-# Use arcpy in ArcGIS Pro to convert *wfb_t_orgs_geolocated.csv* into feature classes containing the area(s) of operation for each t_org individually.
+# Use ArcPy in ArcGIS Pro to convert *wfb_t_orgs_geolocated.csv* into feature classes containing the area(s) of operation for each t_org individually.
 
 ## 1) Use _wfb_t_orgs_geolocated.csv_ to match with a country on the ISO3 code to create a feature class containing only the countries in which the t_orgs reside.
 _This Feature Class can be used for further proccessing in the steps below, or it can act as a standalon feature layer for analysis._
