@@ -1,13 +1,13 @@
 # ostaGIS - Open Source Threat Analysis GIS
 ### Methods for collecting OSINT to conduct threat analysis through GIS.
 
-##### [state_dept_twas](#ostaGIS.py--->-state_dept_twas)
-##### [parse_country](#ostaGIS.py--->-parse_country)
-##### [vals_to_df](#ostaGIS.py--->-vals_to_df)
-##### [wfb_country_scraper](#ostaGIS.py--->-wfb_country_scraper)
-##### [wfb_tos_geoscraper](#ostaGIS.py--->-wfb_tos_geoscraper)
-##### [geomatch_and_multiply](#ostaGIS.py--->-geomatch_and_multiply)
-##### [apply_style_to_gp_lyr](#ostaGIS.py--->-apply_style_to_gp_lyr)
+##### [state_dept_twas](#ostaGIS.py----state_dept_twas)
+##### [parse_country](#ostaGIS.py----parse_country)
+##### [vals_to_df](#ostaGIS.py----vals_to_df)
+##### [wfb_country_scraper](#ostaGIS.py----wfb_country_scraper)
+##### [wfb_tos_geoscraper](#ostaGIS.py----wfb_tos_geoscraper)
+##### [geomatch_and_multiply](#ostaGIS.py----geomatch_and_multiply)
+##### [apply_style_to_gp_lyr](#ostaGIS.py----apply_style_to_gp_lyr)
 
 
 ___
