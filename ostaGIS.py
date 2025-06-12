@@ -1,30 +1,25 @@
-# ostaGIS - Open Source Threat Analysis GIS
-### Methods for collecting OSINT to conduct threat analysis through GIS.
+# ******* VALS TO DF ****************************************************************************
+# ******* VALS TO DF ****************************************************************************
+# ******* VALS TO DF ****************************************************************************
+def vals_to_df(entries):
+    """
+    Description:
+        entries: list of text to be in each row of the DataFrame
+    """  
+    if isinstance(entries, list):
+        None
+    else:
+        raise Exception('entries param must be a list')
+    
+    import pandas as pd
+    df = {"values": entries}
+    df = pd.DataFrame(df)
+    return df
 
-> ##### [state_dept_twas](#ostagispy----state_dept_twas)
-> ##### [parse_country](#ostagispy----parse_country)
-> ##### [vals_to_df](#ostagispy----vals_to_df)
-> ##### [wfb_country_scraper](#ostagispy----wfb_country_scraper)
-> ##### [wfb_tos_geoscraper](#ostagispy----wfb_tos_geoscraper)
-> ##### [geomatch_and_multiply](#ostagispy----geomatch_and_multiply)
-> ##### [apply_style_to_gp_lyr](#ostagispy----apply_style_to_gp_lyr)
 
-**For specific use cases in ArcGIS Pro see [this folder](ArcGIS_use_cases)**
-___
-# ostaGIS.py - > state_dept_twas
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: Parse the [State Department travel advisory XML feed](https://travel.state.gov/_res/rss/TAsTWs.xml/) to geolocate countries into ISO3 format.
-###### NOTE: This code and resulting dataset is designed for use with ArcGIS Pro to map each country's Travel Warning/Advisory using the ISO3 code.
-*The dataset can be used independently for other mapping purposes.*
-#### Python libraries used:
-- Feedparser
-- Pandas
-- Country Converter (coco)
-- Logging
-- Typing
-
-##### Extract RSS feed and goelocate State Department Travel Warnings/Advisories.
-~~~
+# ******* STATE DEPT TWAS ***********************************************************************
+# ******* STATE DEPT TWAS ***********************************************************************
+# ******* STATE DEPT TWAS ***********************************************************************
 def state_dept_twas(export_path, log="CRITICAL"):
     """
     Description:
@@ -174,34 +169,11 @@ def state_dept_twas(export_path, log="CRITICAL"):
     twa_df_final = twa_df
     twa_df_final = twa_df_final[['country', 'threat_level', 'published', 'security_report', 'link', 'summary', 'summary_cont', 'ISO3_CODE', 'label', 'DoS_country_name', 'DoS_gen2alpha']]
     twa_df_final.to_excel(export_path, sheet_name='travel_advisories')
-~~~
-### Resulting Dataset - Must be saved in Excel format due to cells containing large HTML values
-[travel_advisories.xlsx](travel_advisories.xlsx)
 
-___
-# ostaGIS.py - > parse_country
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: Parse and geocode countries mentioned within a text to then geolocate that text using GIS software.
-#### Python Librarys Used:
-- Pandas
-- Country_Converter (coco)
-- Logging
-- Typing
 
-##### READ ME
-This fuction was designed to parse many entries of text within a padas DataFrame. Another function has been provided (vals_to_df) to quickly convert a *list* to a DataFrame to use the parse_country function.
-
-##### Description:
-Use to parse country names that can be found in a string of text stored in a df cell. Geolocate the countries using regex and match to the ISO3 code. Return an exploded or unexploded df that contains all the countries ISO3 codes that were found in the text.
-
-##### Output:
-An exploded or unexploded DataFrame with the text and corrosponding ISO3 country code.
-
-##### NOTE: This function may not catch all countries within a text.
-
-#### See [notebook](help/parse_country_examples.ipynb) for examples
-
-```
+# ******* PARSE COUNTRY *************************************************************************
+# ******* PARSE COUNTRY *************************************************************************
+# ******* PARSE COUNTRY *************************************************************************
 def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRITICAL"):
     """
     Args:
@@ -217,8 +189,8 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
             True - will create a new row for each country within the list. 
             False - will keep all orginal rows; the matched countries will reman in list form within each cell.
         log: "CRITICAL" or "INFO" will denote whether the 'not found' regexes are displayed as an error.
-              CRITICAL - 'not found' regexes will not be displayed.
-              INFO - 'not found' regexes will be displayed.
+            CRITICAL - 'not found' regexes will not be displayed.
+            INFO - 'not found' regexes will be displayed.
     """
     import pandas as pd
     import country_converter as coco
@@ -298,44 +270,11 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
         return df.explode(new_match_column).drop(columns='col_with_id')
     else:
         return df.drop(columns='col_with_id')
-```
-___
-# ostaGIS.py - > vals_to_df
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: Convert *list* to pandas DataFrame
 
-```
-def vals_to_df(entries):
-    """
-    Description:
-        entries: list of text to be in each row of the DataFrame
-    """  
-    if isinstance(entries, list):
-        None
-    else:
-        raise Exception('entries param must be a list')
-    
-    import pandas as pd
-    df = {"values": entries}
-    df = pd.DataFrame(df)
-    return df
-```
-___
-# ostaGIS.py - > wfb_country_scraper
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: This code is desinged to scrape each CIA World Factbook entry (link) with the matching country using the ISO3 code; this results in coded and non-coded datasets.
-*The datasets can be used independently for other mapping purposes.*
-#### Python libraries used:
-- BeautifulSoup
-- Pandas
-- Country Converter (coco)
-- Logging
 
-\
-**See [HOW_TO_SCRAPE_LINKS.md](link) for the best way to prepare for sraping.**
-##### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
-[CIA_wfb.html](links)
-```
+# ******* WFB COUNTRY SCRAPE ********************************************************************
+# ******* WFB COUNTRY SCRAPE ********************************************************************
+# ******* WFB COUNTRY SCRAPE ********************************************************************
 def wfb_country_scrape(saved_html, output_folder, log="CRITICAL"):
     """
     Description:
@@ -410,26 +349,11 @@ def wfb_country_scrape(saved_html, output_folder, log="CRITICAL"):
     wfb_coded.to_csv(output_folder + "\\wfb_countries_coded.csv")
 
     return(print(f"finished...see {output_folder}"))
-```
-### Resulting Datasets
-[wfb_countries_coded.csv](wfb_countries_coded.csv)
-<br>
-[wfb_countries_no_code.csv](wfb_countries_no_code.csv)
-___
-# ostaGIS.py - > wfb_tos_geoscraper
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: Scrape the [CIA World Factbook - Terrorist Organizations](https://www.cia.gov/the-world-factbook/references/terrorist-organizations/) from a saved .html for known area(s) of operation (AORs); resulting in a Pandas Dataframe.
-###### NOTE: use with the `parse_country` function to geolocate the AORs.
-#### Python libraries used:
-- BeautifulSoup
-- Pandas
-- Country Converter (coco)
 
-\
-**See [HOW_TO_SCRAPE_T_ORGS.md](link) for the best way to prepare for sraping.**
-##### Example of HTML file used - NOTE: to run the code as designed, the HTML should be saved as stated above.
-[CIA_t_o.html](links)
-```
+
+# ******* WFB TOS GEOSCRAPER ********************************************************************
+# ******* WFB TOS GEOSCRAPER ********************************************************************
+# ******* WFB TOS GEOSCRAPER ********************************************************************
 def wfb_tos_geoscraper(saved_html):
     """
     saved_html: path to the saved CIA wfb html file -- see documentation 'https://github.com/samcor33/ostaGIS/'
@@ -493,25 +417,11 @@ def wfb_tos_geoscraper(saved_html):
     
     # Put "wfb_tos" into pandas dataframe
     return pd.DataFrame(wfb_tos).T.reset_index()
-```
-**Example when used in conjuction with `parse_country`:**
-```
-ostaGIS.parse_country(
-    df=wfb_tos_geoscraper(saved_html = r"C:/Users/me/my_project/CIA_t_o.html"), 
-    col_to_be_parsed="area of operation", 
-    new_match_column="country_aor"
-).to_csv("C:/Users/me/my_project/datasets/wfb_t_orgs_geolocated.csv")
-```
 
-___
-# ostaGIS.py - > geomatch_and_multiply
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: In ArcGIS, use to match an ISO3 country coded polygon feature class, with an ISO3 coded table to geolocate table records to the associated polygon. Then, Split overlapping records within one polygon, to individual feature classes.
-###### NOTE: This function is designed for use with the "wfb_t_orgs_geolocated.csv" dataset but may work with similar styled datasets.
-#### Python libraries used:
-- ArcPy
 
-```
+# ******* GEOMATCH AND MULTIPLY *****************************************************************
+# ******* GEOMATCH AND MULTIPLY *****************************************************************
+# ******* GEOMATCH AND MULTIPLY *****************************************************************
 def geomatch_and_multiply(
     countries_fc, 
     iso_table,
@@ -679,24 +589,11 @@ def geomatch_and_multiply(
     aprx.defaultGeodatabase = og_default_gdb
 
     print('Individual Mapping Complete')
-```
-**Example when used in conjuction with `wfb_t_orgs_geolocated.csv`:**
-```
-ostaGIS.geomatch_and_multiply(
-    countries_fc = "World_Countries_one_poly_per_c",
-    iso_table = "wfb_t_orgs_geolocated",
-    name_col="index"
-)
-```
-___
-# ostaGIS.py - > apply_style_to_gp_lyr
-[Back to top](#ostagis---open-source-threat-analysis-gis)
-#### PURPOSE: In ArcGIS, use to add a new style to the symbology of every layer within a specified group layer.
-#### Python libraries used:
-- ArcPy
 
 
-```
+# ******* APPLY STYLE TO GP LYR *****************************************************************
+# ******* APPLY STYLE TO GP LYR *****************************************************************
+# ******* APPLY STYLE TO GP LYR *****************************************************************
 def apply_style_to_gp_lyr(gp_lyr_name, style_name):
     """
     Description:
@@ -734,4 +631,3 @@ def apply_style_to_gp_lyr(gp_lyr_name, style_name):
             raise Exception("No Group Layer Found! \n Either the group layer name entered was mispelled or does not exist. \n NOTE: To apply a style to multiple feature layers, the layers must be within a group layer.")
 
     print("Style applied to group")
-```
