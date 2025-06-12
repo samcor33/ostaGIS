@@ -1,13 +1,13 @@
 # ostaGIS - Open Source Threat Analysis GIS
 ### Methods for collecting OSINT to conduct threat analysis through GIS.
 
-##### [state_dept_twas](#ostagispy----state_dept_twas)
-##### [parse_country](#ostagispy----parse_country)
-##### [vals_to_df](#ostagispy----vals_to_df)
-##### [wfb_country_scraper](#ostagispy----wfb_country_scraper)
-##### [wfb_tos_geoscraper](#ostagispy----wfb_tos_geoscraper)
-##### [geomatch_and_multiply](#ostagispy----geomatch_and_multiply)
-##### [apply_style_to_gp_lyr](#ostagispy----apply_style_to_gp_lyr)
+> ##### [state_dept_twas](#ostagispy----state_dept_twas)
+> ##### [parse_country](#ostagispy----parse_country)
+> ##### [vals_to_df](#ostagispy----vals_to_df)
+> ##### [wfb_country_scraper](#ostagispy----wfb_country_scraper)
+> ##### [wfb_tos_geoscraper](#ostagispy----wfb_tos_geoscraper)
+> ##### [geomatch_and_multiply](#ostagispy----geomatch_and_multiply)
+> ##### [apply_style_to_gp_lyr](#ostagispy----apply_style_to_gp_lyr)
 
 **For specific use cases in ArcGIS Pro see [this folder](ArcGIS_use_cases)**
 ___
