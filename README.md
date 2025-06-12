@@ -9,6 +9,7 @@
 ##### [geomatch_and_multiply](#ostagispy----geomatch_and_multiply)
 ##### [apply_style_to_gp_lyr](#ostagispy----apply_style_to_gp_lyr)
 
+###For specific use cases in ArcGIS Pro see [this folder](ArcGIS_use_cases)
 ___
 # ostaGIS.py - > state_dept_twas
 [Back to top](#ostagis---open-source-threat-analysis-gis)
