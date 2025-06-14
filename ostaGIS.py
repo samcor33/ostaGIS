@@ -257,7 +257,13 @@ def parse_country(df, col_to_be_parsed, new_match_column, explode=True, log="CRI
         comb_drop_d = comb[1].drop_duplicates()
 
         # Sort values alphabetically...remove "comb_drop_d[0]" (i.e. "AAAA")...reset index...remove old index column...rename ISO3 Coded column as "new_match_column"
-        new_df = pd.DataFrame(comb_drop_d)[1].sort_values().drop(0).reset_index().drop(columns='index').rename(columns={1: new_match_column})
+        new_df = pd.DataFrame(comb_drop_d)[1]
+
+        # Catch if a list is nested inside a cell which will break the function
+        try:
+            new_df = new_df.sort_values().drop(0).reset_index().drop(columns='index').rename(columns={1: new_match_column})
+        except:
+            new_df = new_df.drop(0).reset_index().drop(columns='index').rename(columns={1: new_match_column})
         
         # Turn "new_match_column" into list to insert values into the "df"
         new_df_list = new_df[new_match_column].to_list()
